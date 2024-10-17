@@ -1,6 +1,23 @@
 import RPi.GPIO as GPIO
 import time
+from mfrc522 import SimpleMFRC522
 
+reader=SimpleMFRC522()
+# Define GPIO to LCD mapping
+'''
+VSS => GND
+VDD => +5v
+V0  => GND
+RS  => 10
+RW  => GND
+E   => 12
+D4  => 40
+D5  => 38
+D6  => 36
+D7  => 32
+A   => +5v
+K   => GND
+'''
 
 LCD_RS = 10
 LCD_E  = 12
@@ -62,7 +79,8 @@ def main():
     GPIO.setup(LCD_D7, GPIO.OUT)
 
     lcd_init()
-    lcd_string("Mrudula Rane", 0x80)  # Display on line 1
+    id,text=reader.read()
+    lcd_string("Hello",text, 0x80)  # Display on line 1
     time.sleep(3)
 
     GPIO.cleanup()
